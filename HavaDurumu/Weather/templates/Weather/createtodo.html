@@ -1,0 +1,31 @@
+{% extends "Weather/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5" style="">
+            <h4 style="text-align:center;">Hava Durumu</h4>
+
+        </div>
+    </div>
+<img src="{% static 'todo/weather.png' %}"  style="display: block;   margin-left: auto;
+  margin-right: auto;
+  width: 20%;">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group" >
+                    <label for="title">Hava durumunu öğrenmek istediğiniz şehri giriniz.</label>
+                    <input type="text" name="title" class="form-control" style="height:calc(2em + .75rem + 2px); font-size:1.25rem;" id="title" required>
+                </div>
+                <div class="form-group form-check" style="padding-left:0px;">
+                    <select name="numDay" id="numDay"  class="custom-select custom-select-lg mb-2">
+                        <option value="3">3 Günlük</option>
+                        <option value="5">5 Günlük</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Hava Durumunu Öğren</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

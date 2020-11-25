@@ -1,0 +1,565 @@
+{% extends "Weather/base.html" %}
+
+{% block content %}
+
+<style>
+
+   .stretch-card>.card {
+     width: 100%;
+     min-width: 100%
+ }
+
+ body {
+     background-color: #f9f9fa
+ }
+
+ .flex {
+     -webkit-box-flex: 1;
+     -ms-flex: 1 1 auto;
+     flex: 1 1 auto
+ }
+
+ @media (max-width:991.98px) {
+     .padding {
+         padding: 1.5rem
+     }
+ }
+
+ @media (max-width:767.98px) {
+     .padding {
+         padding: 1rem
+     }
+ }
+
+ .padding {
+     padding: 5rem
+ }
+
+ .grid-margin,
+ .purchace-popup>div {
+     margin-bottom: 25px
+ }
+
+ .card {
+     border: 0;
+     border-radius: 2px
+ }
+
+ .card-weather {
+     background: #e1ecff;
+     background-image: linear-gradient(to left bottom, #d6eef6, #dff0fa, #e7f3fc, #eff6fe, #f6f9ff)
+ }
+
+ .card {
+     position: relative;
+     display: flex;
+     flex-direction: column;
+     min-width: 0;
+     word-wrap: break-word;
+     background-color: #fff;
+     background-clip: border-box;
+     border: 1px solid rgba(0, 0, 0, 0.125);
+     border-radius: 0.25rem
+ }
+
+ .card-weather .card-body:first-child {
+     background: url(https://res.cloudinary.com/dxfq3iotg/image/upload/v1557323760/weather.svg) no-repeat center;
+     background-size: cover
+ }
+
+ .card .card-body {
+     padding: 1.88rem 1.81rem
+ }
+
+ .card-body {
+     flex: 1 1 auto;
+     padding: 1.25rem
+ }
+
+ .card-weather .weather-date-location {
+     padding: 0 0 38px
+ }
+
+ .h3,
+ h3 {
+     font-size: 1.56rem
+ }
+
+ .h1,
+ .h2,
+ .h3,
+ .h4,
+ .h5,
+ .h6,
+ h1,
+ h2,
+ h3,
+ h4,
+ h5,
+ h6 {
+     font-family: "Poppins", sans-serif;
+     font-weight: 500
+ }
+
+ .text-gray,
+ .card-subtitle,
+ .new-accounts ul.chats li.chat-persons a p.joined-date {
+     color: #969696
+ }
+
+ p {
+     font-size: 13px
+ }
+
+ .text-gray,
+ .card-subtitle,
+ .new-accounts ul.chats li.chat-persons a p.joined-date {
+     color: #969696
+ }
+
+ .card-weather .weather-data {
+     padding: 0 0 4.75rem
+ }
+
+ .mr-auto,
+ .mx-auto {
+     margin-right: auto !important
+ }
+
+ .display-3 {
+     font-size: 2.5rem
+ }
+
+ .card-weather .card-body {
+     background: #ffffff
+ }
+
+ .card-weather .weakly-weather {
+     background: #ffffff;
+     overflow-x: auto
+ }
+
+ .card-weather .weakly-weather .weakly-weather-item {
+     flex: 0 0 12.50%;
+     border-right: 1px solid #f2f2f2;
+     padding: 1rem;
+     text-align: center
+ }
+
+ .mb-0,
+ .my-0 {
+     margin-bottom: 0 !important
+ }
+
+ .card-weather .weakly-weather .weakly-weather-item i {
+     font-size: 1.2rem
+ }
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+setInterval( function() {
+var hours = new Date().getHours();
+$(".hours").html(( hours < 10 ? "0" : "" ) + hours);
+}, 1000);
+setInterval( function() {
+var minutes = new Date().getMinutes();
+$(".min").html(( minutes < 10 ? "0" : "" ) + minutes);
+},1000);
+setInterval( function() {
+var seconds = new Date().getSeconds();
+$(".sec").html(( seconds < 10 ? "0" : "" ) + seconds);
+},1000);
+});
+</script>
+<!-- Button trigger modal -->
+
+  <!-- <img src="{{ Wurl }}" > -->
+<div class="page-content page-container" id="page-content" >
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+                    <h1> {{ CityName }} Hava Durumu </h1>
+
+
+	<br>	<br>	<br>	<br>
+            <div class="col-lg-8 grid-margin stretch-card" style="flex: 0 0 100.666667%; max-width: 100.666667%;">
+
+                <!--weather card-->
+                <div class="card card-weather">
+                    <div class="card-body">
+                      <img src="{{ Icon }}" style="float:right;">
+
+                        <div class="weather-date-location">
+                            <h3>{{ DayList.0 }}</h3>
+
+                            <p class="text-gray"> <span class="weather-date">{{ Date.0 }}</span> <span class="weather-location">{{ CityName }}</span> </p>
+                        </div>
+                        <div class="weather-data d-flex">
+                            <div class="mr-auto" >
+                                <h4 class="display-3">{{ CurrentTemp }}<span class="symbol">°</span>C</h4>
+                                <h5> {{ Weather }} </h5>
+                                <h6> Humidity % {{ humidtyC }} </h6>
+                                <h7> Feels Like {{ FeelsLikeC }}° </h7>
+                            </div>
+                        </div>
+                        <div class="col-md-3"style="float:right;">
+<div class="card bg-primary text-white">
+<h3 class="card-title text-center">
+<div class="d-flex flex-wrap justify-content-center mt-2">
+<a><span class="badge hours"></span></a> :
+<a><span class="badge min"></span></a> :
+<a><span class="badge sec"></span></a>
+</div>
+</h3>
+</div>
+</div>
+                    </div>
+
+                <div class="modal-body" >
+
+                            <div class="card-body p-0">
+                        <div class="d-flex weakly-weather">
+                            <div class="weakly-weather-item">
+                                <p class="mb-0"> 00:00 </p> <i class="mdi mdi-weather-cloudy"></i>
+                                <p class="mb-0"> {{ timeW.0}}° </p>
+                            </div>
+                            <div class="weakly-weather-item">
+                                <p class="mb-1"> 03:00 </p> <i class="mdi mdi-weather-hail"></i>
+                                <p class="mb-0"> {{ timeW.1 }}° </p>
+                            </div>
+                            <div class="weakly-weather-item">
+                                <p class="mb-1"> 06:00 </p> <i class="mdi mdi-weather-partlycloudy"></i>
+                                <p class="mb-0"> {{ timeW.2 }}° </p>
+                            </div>
+                            <div class="weakly-weather-item">
+                                <p class="mb-1"> 09:00 </p> <i class="mdi mdi-weather-pouring"></i>
+                                <p class="mb-0"> {{ timeW.3 }}° </p>
+                            </div>
+                            <div class="weakly-weather-item">
+                                <p class="mb-1"> 12:00 </p> <i class="mdi mdi-weather-pouring"></i>
+                                <p class="mb-0"> {{ timeW.4 }}° </p>
+                            </div>
+                            <div class="weakly-weather-item">
+                                <p class="mb-1"> 15:00 </p> <i class="mdi mdi-weather-snowy-rainy"></i>
+                                <p class="mb-0"> {{ timeW.5 }}° </p>
+                            </div>
+                            <div class="weakly-weather-item">
+                                <p class="mb-1"> 18:00 </p> <i class="mdi mdi-weather-snowy"></i>
+                                <p class="mb-0"> {{ timeW.6 }}° </p>
+                            </div>
+                            <div class="weakly-weather-item">
+                                <p class="mb-1"> 21:00 </p> <i class="mdi mdi-weather-snowy"></i>
+                                <p class="mb-0"> {{ timeW.7 }}° </p>
+                            </div>
+                        </div>
+                    </div>
+
+      </div>
+                    {% if numOfDays == "3" %}
+                     <div class="modal-body" >
+
+                            <div class="card-body p-0">
+                        <div class="d-flex weakly-weather">
+                            <div class="weakly-weather-item"style="flex: 0 0 33.33%;">
+                                <p class="mb-1"> On <b>{{ Date.0 }}</b> </p> <i class="mdi mdi-weather-partlycloudy"></i>
+                                <p class="mb-0"> The Average Temperature Will Be<b> {{ avgTemp.0 }}°</b>  </p>
+                            </div>
+                            <div class="weakly-weather-item"style="flex: 0 0 33.33%;">
+                                <p class="mb-1"> On <b>{{ Date.1 }}</b> </p> <i class="mdi mdi-weather-partlycloudy"></i>
+                                <p class="mb-0"> The Average Temperature Will Be<b> {{ avgTemp.1 }}°</b>  </p>
+                            </div>
+                            <div class="weakly-weather-item"style="flex: 0 0 33.34%;">
+                                <p class="mb-1"> On <b>{{ Date.2 }}</b> </p> <i class="mdi mdi-weather-partlycloudy"></i>
+                                <p class="mb-0"> The Average Temperature Will Be<b> {{ avgTemp.2 }}°</b>  </p>
+                            </div>
+                            </div>
+                                </div>
+                         </div>
+                    </div>
+
+                    {% endif %}
+                    {% if numOfDays == "5" %}
+                     <div class="modal-body">
+
+                            <div class="card-body p-0">
+                        <div class="d-flex weakly-weather"  >
+                            <div class="weakly-weather-item"style="flex: 0 0 20%;">
+                                <p class="mb-1"> On <b>{{ Date.0 }}</b> </p> <i class="mdi mdi-weather-partlycloudy"></i>
+                                <p class="mb-0"> The Average Temperature Will Be<b> {{ avgTemp.0 }}°</b>  </p>
+                            </div>
+                            <div class="weakly-weather-item"style="flex: 0 0 20%;">
+                                <p class="mb-1"> On <b>{{ Date.1 }}</b> </p> <i class="mdi mdi-weather-partlycloudy"></i>
+                                <p class="mb-0"> The Average Temperature Will Be<b> {{ avgTemp.1 }}°</b>  </p>
+                            </div>
+                            <div class="weakly-weather-item"style="flex: 0 0 20%;">
+                                <p class="mb-1"> On <b>{{ Date.2 }}</b> </p> <i class="mdi mdi-weather-partlycloudy"></i>
+                                <p class="mb-0"> The Average Temperature Will Be<b> {{ avgTemp.2 }}°</b>  </p>
+                            </div>
+                            <div class="weakly-weather-item"style="flex: 0 0 20%;">
+                                <p class="mb-1"> On <b>{{ Date.3 }}</b> </p> <i class="mdi mdi-weather-partlycloudy"></i>
+                                <p class="mb-0"> The Average Temperature Will Be<b> {{ avgTemp.3 }}°</b>  </p>
+                            </div>
+                            <div class="weakly-weather-item"style="flex: 0 0 20%;">
+                                <p class="mb-1"> On <b>{{ Date.4 }}</b> </p> <i class="mdi mdi-weather-partlycloudy"></i>
+                                <p class="mb-0"> The Average Temperature Will Be<b> {{ avgTemp.4 }}°</b>  </p>
+                            </div>
+                            </div>
+                            </div>
+                         </div>
+                    </div>
+
+                    {% endif %}
+
+      </div>
+                </div>
+                <!--weather card ends-->
+                            <button type="button" class="btn btn-primary" style="margin-top: 40px; " data-toggle="modal" data-target="#exampleModal">
+  Detaylı İncele
+</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-body">
+        <div class="page-content page-container" id="page-content">
+            <div class="padding">
+                {% if numOfDays == "3" %}
+                <div class="col-lg-8 grid-margin stretch-card" style="flex: 1 1 100.666667%;max-width: 100.666667%;display: flex;align-items: flex-start;margin-left: -;position: absolute;margin: auto;left: -500px;">
+
+
+
+
+                <!--weather card-->
+                <div class="card card-weather">
+                    <div class="card-body">
+                      <img src="{{ WeatherAvg.0 }}" style="float:right;">
+                        <div class="weather-date-location">
+                            <h3>{{ DayList.0 }}</h3>
+
+                            <p class="text-gray"> <span class="weather-date">{{ Date.0 }}</span> <span class="weather-location">{{ CityName }}</span> </p>
+                        </div>
+                        <div class="weather-data d-flex">
+                            <div class="mr-auto" >
+                                <h4 class="display-3">{{ avgTemp.0 }}<span class="symbol">°</span>C</h4>
+                                <h6> {{ Weather }} </h6>
+                                <h7> Max <b>{{ maxTemp.0 }}°</b> </h7>
+                                <h7> Min <b>{{ minTemp.0 }}°</b> </h7>
+                                                                <br><br>
+                                <h8 > Sun Rise: <i>{{ sunrise.0 }}</i> </h8>
+                                <h8 > Sun Set: <i>{{ sunset.0 }}</i> </h8>
+                                <br><br>
+                                <h9> Sunny Hours <b>{{ sunHour.0 }}</b></h9>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="card card-weather" >
+                        <div class="card-body">
+                      <img src="{{ WeatherAvg.1 }}" style="float:right;">
+                        <div class="weather-date-location">
+                            <h3>{{ DayList.1 }}</h3>
+
+                            <p class="text-gray"> <span class="weather-date">{{ Date.0 }}</span> <span class="weather-location">{{ CityName }}</span> </p>
+                        </div>
+                        <div class="weather-data d-flex">
+                            <div class="mr-auto" >
+                                <h4 class="display-3">{{ avgTemp.1 }}<span class="symbol">°</span>C</h4>
+                                <h6> {{ weatherDesc.1 }} </h6>
+                                <h7> Max <b>{{ maxTemp.1 }}°</b> </h7>
+                                <h7> Min <b>{{ minTemp.1 }}°</b> </h7>
+                                                                <br><br>
+                                <h8 > Sun Rise: <i>{{ sunrise.1 }}</i> </h8>
+                                <h8 > Sun Set: <i>{{ sunset.1 }}</i> </h8>
+                                <br><br>
+                                <h9> Sunny Hours <b>{{ sunHour.1 }}</b> </h9>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="card card-weather" >
+                        <div class="card-body">
+                      <img src="{{ WeatherAvg.2 }}" style="float:right;">
+
+                        <div class="weather-date-location">
+                            <h3>{{ DayList.2 }}</h3>
+
+                            <p class="text-gray"> <span class="weather-date">{{ Date.0 }}</span> <span class="weather-location">{{ CityName }}</span> </p>
+                        </div>
+
+                        <div class="weather-data d-flex">
+                            <div class="mr-auto" >
+                                <h4 class="display-3">{{ avgTemp.2 }}<span class="symbol">°</span>C</h4>
+                                <h6> {{ weatherDesc.2 }} </h6>
+
+                                <h7> Max <b>{{ maxTemp.2 }}°</b> </h7>
+                                <h7> Min <b>{{ minTemp.2 }}°</b> </h7>
+                                <br><br>
+                                <h8 > Sun Rise: <i>{{ sunrise.2 }}</i> </h8>
+                                <h8 > Sun Set: <i>{{ sunset.2 }}</i> </h8>
+                                <br><br>
+                                <h9> Sunny Hours <b>{{ sunHour.2 }}</b> </h9>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+{% endif %}
+
+{% if numOfDays == "5" %}
+                <div class="col-lg-8 grid-margin stretch-card" style="flex: 1 1 100.666667%;max-width: 100.666667%;display: flex;align-items: flex-start;margin-left: -;position: absolute;margin: auto;left: -500px; width: 65%;">
+                              <!--weather card-->
+                <div class="card card-weather">
+                    <div class="card-body">
+                      <img src="{{ WeatherAvg.0 }}" style="float:right;">
+                        <div class="weather-date-location">
+                            <h3>{{ DayList.0 }}</h3>
+
+                            <p class="text-gray"> <span class="weather-date">{{ Date.0 }}</span> <span class="weather-location">{{ CityName }}</span> </p>
+                        </div>
+                        <div class="weather-data d-flex">
+                            <div class="mr-auto" >
+                                <h4 class="display-3">{{ avgTemp.0 }}<span class="symbol">°</span>C</h4>
+                                <h6> {{ weatherDesc.3 }} </h6>
+                                <h7> Max <b>{{ maxTemp.0 }}°</b> </h7>
+                                <h7> Min <b>{{ minTemp.0 }}°</b> </h7>
+                                                                <br><br>
+                                <h8 > Sun Rise: <i>{{ sunrise.0 }}</i> </h8>
+                                <h8 > Sun Set: <i>{{ sunset.0 }}</i> </h8>
+                                <br><br>
+                                <h9> Sunny Hours <b>{{ sunHour.0 }}</b></h9>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="card card-weather" >
+                        <div class="card-body">
+                      <img src="{{ WeatherAvg.1 }}" style="float:right;">
+                        <div class="weather-date-location">
+                            <h3>{{ DayList.1 }}</h3>
+
+                            <p class="text-gray"> <span class="weather-date">{{ Date.1 }}</span> <span class="weather-location">{{ CityName }}</span> </p>
+                        </div>
+                        <div class="weather-data d-flex">
+                            <div class="mr-auto" >
+                                <h4 class="display-3">{{ avgTemp.1 }}<span class="symbol">°</span>C</h4>
+                                <h6> {{ weatherDesc.1 }} </h6>
+                                <h7> Max <b>{{ maxTemp.1 }}°</b> </h7>
+                                <h7> Min <b>{{ minTemp.1 }}°</b> </h7>
+                                                                <br><br>
+                                <h8 > Sun Rise: <i>{{ sunrise.1 }}</i> </h8>
+                                <h8 > Sun Set: <i>{{ sunset.1 }}</i> </h8>
+                                <br><br>
+                                <h9> Sunny Hours <b>{{ sunHour.1 }}</b> </h9>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="card card-weather" >
+                        <div class="card-body">
+                      <img src="{{ WeatherAvg.2 }}" style="float:right;">
+
+                        <div class="weather-date-location">
+                            <h3>{{ DayList.2 }}</h3>
+
+                            <p class="text-gray"> <span class="weather-date">{{ Date.2 }}</span> <span class="weather-location">{{ CityName }}</span> </p>
+                        </div>
+
+                        <div class="weather-data d-flex">
+                            <div class="mr-auto" >
+                                <h4 class="display-3">{{ avgTemp.2 }}<span class="symbol">°</span>C</h4>
+                                <h6> {{ weatherDesc.2 }} </h6>
+
+                                <h7> Max <b>{{ maxTemp.2 }}°</b> </h7>
+                                <h7> Min <b>{{ minTemp.2 }}°</b> </h7>
+                                <br><br>
+                                <h8 > Sun Rise: <i>{{ sunrise.2 }}</i> </h8>
+                                <h8 > Sun Set: <i>{{ sunset.2 }}</i> </h8>
+                                <br><br>
+                                <h9> Sunny Hours <b>{{ sunHour.2 }}</b> </h9>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                    <div class="card card-weather" >
+                        <div class="card-body">
+                      <img src="{{ WeatherAvg.3 }}" style="float:right;">
+
+                        <div class="weather-date-location">
+                            <h3>{{ DayList.3 }}</h3>
+
+                            <p class="text-gray"> <span class="weather-date">{{ Date.3 }}</span> <span class="weather-location">{{ CityName }}</span> </p>
+                        </div>
+
+                        <div class="weather-data d-flex">
+                            <div class="mr-auto" >
+                                <h4 class="display-3">{{ avgTemp.3 }}<span class="symbol">°</span>C</h4>
+                                <h6> {{ weatherDesc.3 }} </h6>
+
+                                <h7> Max <b>{{ maxTemp.3 }}°</b> </h7>
+                                <h7> Min <b>{{ minTemp.3 }}°</b> </h7>
+                                <br><br>
+                                <h8 > Sun Rise: <i>{{ sunrise.3 }}</i> </h8>
+                                <h8 > Sun Set: <i>{{ sunset.3 }}</i> </h8>
+                                <br><br>
+                                <h9> Sunny Hours <b>{{ sunHour.3 }}</b> </h9>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                    <div class="card card-weather" >
+                        <div class="card-body">
+                      <img src="{{ WeatherAvg.4 }}" style="float:right;">
+
+                        <div class="weather-date-location">
+                            <h3>{{ DayList.4 }}</h3>
+
+                            <p class="text-gray"> <span class="weather-date">{{ Date.4 }}</span> <span class="weather-location">{{ CityName }}</span> </p>
+                        </div>
+
+                        <div class="weather-data d-flex">
+                            <div class="mr-auto" >
+                                <h4 class="display-3">{{ avgTemp.4 }}<span class="symbol">°</span>C</h4>
+                                <h6> {{ weatherDesc.4 }} </h6>
+
+                                <h7> Max <b>{{ maxTemp.4 }}°</b> </h7>
+                                <h7> Min <b>{{ minTemp.4 }}°</b> </h7>
+                                <br><br>
+                                <h8 > Sun Rise: <i>{{ sunrise.4 }}</i> </h8>
+                                <h8 > Sun Set: <i>{{ sunset.4 }}</i> </h8>
+                                <br><br>
+                                <h9> Sunny Hours <b>{{ sunHour.4 }}</b> </h9>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+{% endif %}
+
+                </div>
+
+                </div>
+
+  </div>
+
+            </div>
+
+</div>
+
+</div>
+{% endblock %}

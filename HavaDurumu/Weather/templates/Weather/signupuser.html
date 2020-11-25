@@ -1,0 +1,73 @@
+{% extends "Weather/base.html" %}
+
+{% block content %}
+{% if user.is_anonymous %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5">
+            <h2>Üye Ol</h2>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5">
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endif %}
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Kullanıcı Adı</label>
+                    <input type="text" name="username" class="form-control" id="username" aria-describedby="usernameHelp">
+                    <small id="usernameHelp" class="form-text text-muted">Kullanıcı adınız benzersiz olmalıdır. Birisi zaten bu kullanıcını adına sahipse size haber vereceğiz.</small>
+                </div>
+                <div class="form-group">
+                    <label for="password1">Şifre</label>
+                    <input type="password" name="password1" class="form-control" id="password1">
+                </div>
+                <div class="form-group">
+                    <label for="password2">Şifreyi Onayla</label>
+                    <input type="password" name="password2" class="form-control" id="password2">
+                </div>
+                <button type="submit" class="btn btn-primary">Üye Ol</button>
+            </form>
+            <hr>
+            <div class="text-center">
+                Zaten bir hesabın var mı ?<a href="{% url 'loginuser' %}"> Giriş Yapın</a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% if user.is_authenticated %}
+
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            {% if todos %}
+                 <h1>{{ todos.count }} Current Todo{{ todos.count|pluralize }}</h1>
+            {% else %}
+                           <h1>Hava Durumu</h1>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+        {% if todos %}
+            <div class="list-group">
+                {% for todo in todos %}
+                    <a href="{% url 'viewtodo' todo.id %}" class="list-group-item list-group-item-action{% if todo.Tday %} list-group-item-danger{% endif %}"><b>{{ todo.title }}</b>{% if todo.memo %} - {{ todo.memo|truncatechars:30 }}{% endif %}</a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center">
+                <h2>Looks like you don't have any todos! Nice work.</h2>
+            <br>
+            <a role="button" class="btn btn-primary" href="{% url 'createtodo' %}">New Todo</a>
+            </div>
+        {% endif %}
+        </div>
+    </div>
+
+
+
+{% endif %}
+{% endblock %}
